@@ -10,6 +10,8 @@ import { getProperties } from './services/firebase';
 import type { Property } from './types/property';
 import type { PropertyFilters } from './services/firebase';
 import { ShieldCheck, Mail, Phone, MapPin, Building2, Trees, Home, Lock } from 'lucide-react';
+import { auth } from './services/firebaseConfig';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 export default function App() {
   // View state: 'public' | 'login' | 'admin'
@@ -24,6 +26,61 @@ export default function App() {
   const [currentFilters, setCurrentFilters] = useState<PropertyFilters>({
     category: 'corporativo'
   });
+
+  // ── SPA Routing System ──
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const path = window.location.pathname;
+      if (path === '/admin') {
+        setAppView(auth.currentUser ? 'admin' : 'login');
+      } else {
+        setAppView('public');
+      }
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    handleLocationChange();
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+    };
+  }, []);
+
+  // Listen to Firebase Auth state changes to persist dashboard login
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAdminAuthenticated(true);
+        if (window.location.pathname === '/admin') {
+          setAppView('admin');
+        }
+      } else {
+        setIsAdminAuthenticated(false);
+        if (window.location.pathname === '/admin') {
+          setAppView('login');
+        } else {
+          setAppView('public');
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const navigateToLogin = () => {
+    window.history.pushState({}, '', '/admin');
+    setAppView(auth.currentUser ? 'admin' : 'login');
+  };
+
+  const navigateToPublic = () => {
+    window.history.pushState({}, '', '/');
+    setAppView('public');
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigateToPublic();
+  };
 
   // Fetch properties whenever current filters change
   useEffect(() => {
@@ -79,7 +136,7 @@ export default function App() {
           setIsAdminAuthenticated(true);
           setAppView('admin');
         }}
-        onCancel={() => setAppView('public')}
+        onCancel={navigateToPublic}
       />
     );
   }
@@ -88,10 +145,7 @@ export default function App() {
     return (
       <AdminDashboard
         properties={properties}
-        onLogout={() => {
-          setIsAdminAuthenticated(false);
-          setAppView('public');
-        }}
+        onLogout={handleLogout}
         onRefresh={() => fetchAllProperties()}
       />
     );
@@ -260,12 +314,12 @@ export default function App() {
             <p className="text-[10px]">Privacidade Garantida — Em conformidade com a LGPD.</p>
             {/* Acesso Restrito — link discreto para o painel administrativo */}
             <button
-              onClick={() => setAppView('login')}
+              onClick={navigateToLogin}
               className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-gray-700 hover:text-gray-500 transition-colors cursor-pointer"
               aria-label="Acesso Restrito ao Painel Administrativo"
             >
               <Lock className="w-2.5 h-2.5" />
-              Acesso Restrito
+              Área Restrita
             </button>
           </div>
         </div>
