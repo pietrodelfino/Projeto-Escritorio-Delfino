@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Property } from '../types/property';
 import { submitContactForm } from '../services/firebase';
-import { X, Maximize2, BedDouble, Bath, Car, ArrowUpToLine, ShieldCheck, Check, Loader2, Landmark, MapPin } from 'lucide-react';
+import { X, Maximize2, BedDouble, Bath, Car, ArrowUpToLine, ShieldCheck, Check, Loader2, Landmark, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PropertyDetailsModalProps {
   property: Property | null;
@@ -32,6 +32,19 @@ export default function PropertyDetailsModal({ property, onClose }: PropertyDeta
       currency: 'BRL',
       maximumFractionDigits: 0,
     }).format(value);
+  };
+
+  // Carousel navigation handlers
+  const prevPhoto = () => {
+    setActivePhotoIdx((prev) =>
+      prev === 0 ? property.photos.length - 1 : prev - 1
+    );
+  };
+
+  const nextPhoto = () => {
+    setActivePhotoIdx((prev) =>
+      prev === property.photos.length - 1 ? 0 : prev + 1
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,42 +102,77 @@ export default function PropertyDetailsModal({ property, onClose }: PropertyDeta
             
             {/* Left Section: Photos, Specs, Desc (7 Columns) */}
             <div className="lg:col-span-7 p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-gray-850">
-              {/* Photo Gallery Viewer */}
-              <div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-black mb-4">
+              {/* Photo Gallery Viewer — Carousel with arrows */}
+              <div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-black mb-4 group">
+                {/* Main photo with crossfade via key-change */}
                 <img
+                  key={activePhotoIdx}
                   src={property.photos[activePhotoIdx]}
                   alt={`${property.title} - Foto ${activePhotoIdx + 1}`}
-                  className="w-full h-full object-cover transition-all duration-300"
+                  className="w-full h-full object-cover animate-[fadeIn_0.4s_ease-in-out]"
+                  style={{ animation: 'fadeIn 0.4s ease-in-out' }}
                 />
-                
-                {/* Thumbnails indicator overlay */}
+
+                {/* Arrow Buttons — only rendered when there is more than one photo */}
                 {property.photos.length > 1 && (
-                  <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-                    {property.photos.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setActivePhotoIdx(idx)}
-                        className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
-                          activePhotoIdx === idx ? 'bg-[#C5A880] scale-125' : 'bg-white/50 hover:bg-white'
-                        }`}
-                      />
-                    ))}
-                  </div>
+                  <>
+                    {/* Previous Arrow */}
+                    <button
+                      onClick={prevPhoto}
+                      aria-label="Foto anterior"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/50 hover:bg-[#C5A880] text-white hover:text-[#0B192C] rounded-full border border-white/10 hover:border-[#C5A880] transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+
+                    {/* Next Arrow */}
+                    <button
+                      onClick={nextPhoto}
+                      aria-label="Próxima foto"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/50 hover:bg-[#C5A880] text-white hover:text-[#0B192C] rounded-full border border-white/10 hover:border-[#C5A880] transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+
+                    {/* Dot indicators */}
+                    <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
+                      {property.photos.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setActivePhotoIdx(idx)}
+                          aria-label={`Ir para foto ${idx + 1}`}
+                          className={`rounded-full transition-all duration-300 cursor-pointer ${
+                            activePhotoIdx === idx
+                              ? 'w-5 h-2 bg-[#C5A880]'
+                              : 'w-2 h-2 bg-white/50 hover:bg-white'
+                          }`}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Photo counter */}
+                    <span className="absolute top-3 right-3 bg-black/60 text-white text-[10px] font-semibold px-2 py-0.5 rounded backdrop-blur-sm">
+                      {activePhotoIdx + 1} / {property.photos.length}
+                    </span>
+                  </>
                 )}
               </div>
 
-              {/* Photo Gallery Thumbnails */}
+              {/* Thumbnail Strip */}
               {property.photos.length > 1 && (
-                <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-thin">
                   {property.photos.map((photo, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActivePhotoIdx(idx)}
-                      className={`relative flex-shrink-0 w-20 aspect-[16/10] rounded overflow-hidden border-2 transition-all ${
-                        activePhotoIdx === idx ? 'border-[#C5A880]' : 'border-transparent opacity-60 hover:opacity-100'
+                      aria-label={`Ver foto ${idx + 1}`}
+                      className={`relative flex-shrink-0 w-20 aspect-[16/10] rounded overflow-hidden border-2 transition-all duration-200 cursor-pointer ${
+                        activePhotoIdx === idx
+                          ? 'border-[#C5A880] ring-1 ring-[#C5A880]/40'
+                          : 'border-transparent opacity-50 hover:opacity-90'
                       }`}
                     >
-                      <img src={photo} alt="" className="w-full h-full object-cover" />
+                      <img src={photo} alt={`Miniatura ${idx + 1}`} className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
@@ -230,24 +278,42 @@ export default function PropertyDetailsModal({ property, onClose }: PropertyDeta
                 </div>
               </div>
 
-              {/* Map Placeholder — Localização e Arredores */}
+
+              {/* Interactive Map — OpenStreetMap (free, no API key required) */}
               <div className="mb-6">
-                <h3 className="text-xs uppercase tracking-widest text-[#C5A880] font-bold mb-3 border-b border-gray-800 pb-2">
-                  📍 Localização e Arredores
+                <h3 className="text-xs uppercase tracking-widest text-[#C5A880] font-bold mb-3 border-b border-gray-800 pb-2 flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5" />
+                  Localização e Arredores
                 </h3>
-                <div className="relative flex flex-col items-center justify-center gap-3 h-44 rounded-lg bg-gradient-to-br from-gray-950 to-[#0B192C] border border-dashed border-[#C5A880]/25 overflow-hidden">
-                  {/* Decorative grid pattern */}
-                  <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, #C5A880 0px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, #C5A880 0px, transparent 1px, transparent 40px)' }} />
-                  <MapPin className="w-8 h-8 text-[#C5A880]/50" />
-                  <div className="text-center px-6">
-                    <p className="text-gray-400 text-sm font-semibold">[Mapa Interativo - API em Desenvolvimento]</p>
-                    <p className="text-gray-600 text-xs mt-1 font-light">{property.location}</p>
-                  </div>
-                  <span className="text-[9px] uppercase tracking-widest text-gray-600 font-bold border border-gray-800 px-2 py-0.5 rounded">
-                    Google Maps / Leaflet — Em breve
-                  </span>
+
+                {/* Map iframe container */}
+                <div className="relative rounded-lg overflow-hidden border border-[#C5A880]/15 shadow-lg" style={{ height: '220px' }}>
+                  {/* Dark overlay frame to integrate map into dark UI */}
+                  <div className="absolute inset-0 pointer-events-none z-10 rounded-lg ring-1 ring-inset ring-[#C5A880]/10" />
+                  
+                  <iframe
+                    title={`Mapa da região: ${property.location}`}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, display: 'block', filter: 'saturate(0.7) brightness(0.85) contrast(1.05)' }}
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=-48.2260%2C-21.8200%2C-48.1500%2C-21.7600&layer=mapnik&marker=-21.7946%2C-48.1766"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+
+                {/* Privacy / Approximate location disclaimer */}
+                <div className="mt-2.5 flex items-start gap-1.5">
+                  <ShieldCheck className="w-3 h-3 text-[#C5A880]/60 flex-shrink-0 mt-0.5" />
+                  <p className="text-[10px] text-gray-500 leading-relaxed font-light">
+                    <span className="text-gray-400 font-semibold">Localização aproximada.</span>{' '}
+                    A posição exata de imóveis corporativos, industriais e rurais é tratada de forma aproximada neste mapa para garantir a segurança e o sigilo patrimonial dos nossos clientes.
+                    A localização precisa é divulgada apenas após qualificação e NDA assinado.
+                  </p>
                 </div>
               </div>
+
 
               {/* Description */}
               <div>
@@ -274,20 +340,47 @@ export default function PropertyDetailsModal({ property, onClose }: PropertyDeta
                 </div>
 
                 {submitResult?.success ? (
-                  <div className="bg-emerald-950/40 border border-emerald-500/30 p-6 rounded-lg text-center my-8">
-                    <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-4 text-emerald-400">
-                      <Check className="w-6 h-6" />
+                  /* Premium success card with golden branding */
+                  <div className="relative overflow-hidden border border-[#C5A880]/25 rounded-xl p-6 text-center bg-gradient-to-b from-[#0D1F38] to-[#070F19] my-4">
+                    {/* Subtle golden glow */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-gradient-to-r from-transparent via-[#C5A880]/60 to-transparent" />
+
+                    {/* Animated check icon */}
+                    <div className="relative mx-auto mb-5 w-16 h-16">
+                      <div className="absolute inset-0 rounded-full bg-[#C5A880]/10 animate-ping" style={{ animationDuration: '2.5s' }} />
+                      <div className="relative w-16 h-16 rounded-full border-2 border-[#C5A880]/60 bg-[#C5A880]/10 flex items-center justify-center">
+                        <Check className="w-7 h-7 text-[#C5A880]" strokeWidth={2.5} />
+                      </div>
                     </div>
-                    <h4 className="text-white font-serif font-bold text-base mb-2">Solicitação Recebida!</h4>
-                    <p className="text-xs text-gray-300 leading-relaxed">
-                      {submitResult.message}
+
+                    <h4 className="text-white font-serif text-lg font-semibold mb-1">
+                      Solicitação Recebida com Sigilo
+                    </h4>
+                    <p className="text-[#C5A880] text-[11px] uppercase tracking-widest font-bold mb-4">
+                      Eduardo Delfino Imóveis — Desde 1908
                     </p>
-                    <button
-                      onClick={() => setSubmitResult(null)}
-                      className="mt-6 text-xs text-[#C5A880] hover:underline font-semibold"
-                    >
-                      Enviar nova mensagem
-                    </button>
+
+                    <p className="text-gray-300 text-xs leading-relaxed mb-3">
+                      Sua consulta foi registrada de forma confidencial.
+                      O <strong className="text-white">Dr. Silvio Delfino</strong> ou o{' '}
+                      <strong className="text-white">Eduardo Delfino</strong> entrarão em contato
+                      com você diretamente, por canal exclusivo e seguro, em até{' '}
+                      <span className="text-[#C5A880] font-semibold">2 horas úteis</span>.
+                    </p>
+
+                    <p className="text-gray-500 text-[10px] leading-relaxed mb-5">
+                      Todas as informações trocadas são protegidas por acordo de
+                      confidencialidade e estão em conformidade com a LGPD.
+                    </p>
+
+                    <div className="border-t border-gray-800 pt-4">
+                      <button
+                        onClick={() => setSubmitResult(null)}
+                        className="text-[11px] text-[#C5A880]/70 hover:text-[#C5A880] transition-colors font-semibold uppercase tracking-wider"
+                      >
+                        ← Enviar nova consulta
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">

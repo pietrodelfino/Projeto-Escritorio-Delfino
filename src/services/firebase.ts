@@ -67,7 +67,7 @@ export async function getProperties(filters?: PropertyFilters): Promise<Property
 
         if (search) {
           const searchLower = search.toLowerCase();
-          filtered = filtered.filter(p => 
+          filtered = filtered.filter(p =>
             p.title.toLowerCase().includes(searchLower) ||
             p.description.toLowerCase().includes(searchLower) ||
             p.location.toLowerCase().includes(searchLower) ||
@@ -106,6 +106,63 @@ export async function submitContactForm(data: ContactFormData): Promise<{ succes
         success: true,
         message: 'Formulário enviado com sucesso! Entraremos em contato em breve.'
       });
+    }, 500);
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Admin CRUD — Mock implementation (replace with Firestore calls in production)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Simulates creating a new property document in Firestore.
+ * Generates a unique ID and pushes into the in-memory mock array.
+ */
+export async function createProperty(data: Omit<Property, 'id'>): Promise<Property> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const newProperty: Property = {
+        ...data,
+        id: `prop-${Date.now()}`,
+      };
+      propertiesMock.push(newProperty);
+      console.log('Firebase mock: Property created:', newProperty.id);
+      resolve(newProperty);
+    }, 500);
+  });
+}
+
+/**
+ * Simulates updating an existing property document in Firestore by ID.
+ */
+export async function updateProperty(id: string, data: Partial<Omit<Property, 'id'>>): Promise<Property | null> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const idx = propertiesMock.findIndex(p => p.id === id);
+      if (idx === -1) {
+        console.warn('Firebase mock: Property not found for update:', id);
+        resolve(null);
+        return;
+      }
+      propertiesMock[idx] = { ...propertiesMock[idx], ...data };
+      console.log('Firebase mock: Property updated:', id);
+      resolve(propertiesMock[idx]);
+    }, 500);
+  });
+}
+
+/**
+ * Simulates deleting a property document from Firestore by ID.
+ */
+export async function deleteProperty(id: string): Promise<{ success: boolean }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const idx = propertiesMock.findIndex(p => p.id === id);
+      if (idx !== -1) {
+        propertiesMock.splice(idx, 1);
+        console.log('Firebase mock: Property deleted:', id);
+      }
+      resolve({ success: idx !== -1 });
     }, 500);
   });
 }
