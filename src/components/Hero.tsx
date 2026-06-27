@@ -94,7 +94,7 @@ export default function Hero({ onSearch }: HeroProps) {
           backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80')`
         }}
       />
-      <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-[1px]" />
+      <div className="absolute inset-0 bg-white/25 backdrop-blur-[1px]" />
 
       {/* Decorative Gold & Blue Gradients */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#C5A880]/10 rounded-full blur-3xl" />
@@ -103,23 +103,23 @@ export default function Hero({ onSearch }: HeroProps) {
       {/* Content Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C5A880]/10 border border-[#C5A880]/30 text-[#C5A880] text-xs font-semibold uppercase tracking-widest mb-6 animate-fade-in">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B3966E]/10 border border-[#B3966E]/30 text-[#B3966E] text-xs font-semibold uppercase tracking-widest mb-6 animate-fade-in">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#B3966E] animate-pulse" />
           Assessoria Imobiliária Premium desde 1908
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif text-[#13233c] font-bold tracking-wide leading-tight max-w-4xl mx-auto mb-3 uppercase">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif text-black font-bold tracking-wide leading-tight max-w-4xl mx-auto mb-3 uppercase">
           EDUARDO DELFINO IMÓVEIS
         </h1>
         
         {/* Slogan */}
-        <p className="text-lg sm:text-xl md:text-2xl font-serif text-[#B3966E] font-medium max-w-3xl mx-auto mb-8 italic tracking-wider">
+        <p className="text-lg sm:text-xl md:text-2xl font-serif text-black font-medium max-w-3xl mx-auto mb-8 italic tracking-wider">
           Discrição, Tradição e Segurança Jurídica
         </p>
 
         {/* Subtitle */}
-        <p className="text-slate-600 text-base sm:text-lg font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-slate-800 text-base sm:text-lg font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
           Intermediação confidencial de ativos imobiliários corporativos, residências de alto padrão e fazendas produtivas em Araraquara e região central.
         </p>
 
