@@ -119,7 +119,7 @@ export default function Hero({ onSearch }: HeroProps) {
         </p>
 
         {/* Subtitle */}
-        <p className="text-slate-800 text-base sm:text-lg font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-black text-base sm:text-lg font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
           Intermediação confidencial de ativos imobiliários corporativos, residências de alto padrão e fazendas produtivas em Araraquara e região central.
         </p>
 

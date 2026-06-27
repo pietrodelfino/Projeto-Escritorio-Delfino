@@ -2,8 +2,7 @@ import { Award, History, Users } from 'lucide-react';
 
 export default function HistorySection() {
   const partners = [
-    { name: 'Nestlé', role: 'Expansão de Plantas e Centros de Distribuição' },
-    { name: 'Randon', role: 'Intermediação de Terrenos para Fábricas' },
+    { name: 'Randon', role: 'Expansão de Plantas e Centros de Distribuição | Intermediação de Terrenos para Fábricas' },
     { name: 'Extra Supermercados', role: 'Estudos de Viabilidade de Pontos Comerciais' },
     { name: 'Savegnago Supermercados', role: 'Locação e Venda de Áreas Corporativas' }
   ];
@@ -24,7 +23,7 @@ export default function HistorySection() {
         {/* Timeline Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
           {/* History Narrative */}
-          <div className="space-y-6 text-gray-700 leading-relaxed font-light">
+          <div className="space-y-6 text-black leading-relaxed font-light">
             <p className="text-lg font-serif italic text-[#0B192C]">
               "A história do progresso do interior paulista cruza com a nossa assinatura."
             </p>
@@ -45,7 +44,7 @@ export default function HistorySection() {
                 </div>
                 <div>
                   <h4 className="font-serif font-semibold text-sm text-[#0B192C]">118 Anos</h4>
-                  <p className="text-xs text-gray-500">De atuação ininterrupta no mercado.</p>
+                  <p className="text-xs text-black">De atuação ininterrupta no mercado.</p>
                 </div>
               </div>
 
@@ -55,7 +54,7 @@ export default function HistorySection() {
                 </div>
                 <div>
                   <h4 className="font-serif font-semibold text-sm text-[#0B192C]">Gestão Familiar</h4>
-                  <p className="text-xs text-gray-500">Passada de geração a geração.</p>
+                  <p className="text-xs text-black">Passada de geração a geração.</p>
                 </div>
               </div>
             </div>
@@ -94,7 +93,7 @@ export default function HistorySection() {
           </div>
 
           {/* Partners Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {partners.map((partner, idx) => (
               <div
                 key={idx}
@@ -110,7 +109,7 @@ export default function HistorySection() {
                 <h4 className="font-serif font-bold text-base text-[#0B192C] tracking-wide mb-1">
                   {partner.name}
                 </h4>
-                <p className="text-[11px] text-gray-500 leading-normal max-w-[150px]">
+                <p className="text-[11px] text-black leading-normal max-w-[180px]">
                   {partner.role}
                 </p>
               </div>
