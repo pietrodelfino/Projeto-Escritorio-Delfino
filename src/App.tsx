@@ -201,8 +201,8 @@ export default function App() {
             <span className="text-lg font-bold tracking-wide text-white font-serif block">
               EDUARDO DELFINO <span className="text-[#C5A880]">IMÓVEIS</span>
             </span>
-            <span className="text-[9px] uppercase tracking-[0.2em] text-[#C5A880] font-sans font-semibold mt-1 block">
-              Desde 1908 — Assessoria e Sigilo
+            <span className="text-[10px] tracking-wider text-[#C5A880] font-sans font-medium mt-1 block">
+              Discrição, Tradição e Segurança Jurídica
             </span>
             <p className="mt-4 leading-relaxed font-light pr-4 text-gray-500">
               Intermediação de ativos imobiliários de alto padrão sob rigorosos padrões de confidencialidade e assessoria jurídica integrada em Araraquara/SP.
@@ -215,7 +215,7 @@ export default function App() {
             <div className="space-y-2 font-light">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#C5A880] flex-shrink-0" />
-                <span>Rua Voluntários da Pátria, 1420 - Centro, Araraquara - SP, 14801-320</span>
+                <span>Rua Comendador Pedro Morgante, 2412 - Centro, Araraquara - SP</span>
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#C5A880] flex-shrink-0" />

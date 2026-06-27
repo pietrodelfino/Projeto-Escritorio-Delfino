@@ -33,8 +33,8 @@ export default function Header() {
             <span className="text-xl font-bold tracking-wide text-white font-serif">
               EDUARDO DELFINO <span className="text-[#C5A880]">IMÓVEIS</span>
             </span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#C5A880] font-sans font-semibold mt-0.5">
-              Desde 1908 — Tradição & Sigilo
+            <span className="text-[9px] tracking-wider text-[#C5A880] font-sans font-medium mt-0.5">
+              Discrição, Tradição e Segurança Jurídica
             </span>
           </div>
 
