@@ -68,7 +68,7 @@ export default function AdminLogin({ onLoginSuccess, onCancel }: AdminLoginProps
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="admin@eduardodelfino.com.br"
+                placeholder="delfinoimoveis2026@gmail.com"
                 className={`w-full pl-9 pr-3 py-2.5 bg-gray-900/80 border rounded text-sm text-white placeholder-gray-600 focus:outline-none transition-colors ${
                   error ? 'border-red-500/50 focus:border-red-400' : 'border-gray-700 focus:border-[#C5A880]'
                 }`}

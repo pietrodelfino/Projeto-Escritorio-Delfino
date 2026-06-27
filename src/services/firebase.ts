@@ -18,6 +18,7 @@ import {
 } from 'firebase/storage';
 import { db, storage } from './firebaseConfig';
 import type { Property } from '../types/property';
+import { propertiesMock } from '../mocks/propertiesMock';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Types
@@ -88,6 +89,19 @@ function docToProperty(docSnap: import('firebase/firestore').QueryDocumentSnapsh
  */
 export async function getProperties(filters?: PropertyFilters): Promise<Property[]> {
   const colRef = collection(db, PROPERTIES_COLLECTION);
+
+  // Check if collection is empty, if so, seed it with mock data
+  const checkSnapshot = await getDocs(colRef);
+  if (checkSnapshot.empty) {
+    console.log('Firestore is empty. Auto-seeding initial properties...');
+    for (const mock of propertiesMock) {
+      const { id, ...data } = mock;
+      await addDoc(colRef, {
+        ...data,
+        createdAt: new Date().toISOString(),
+      });
+    }
+  }
 
   // Build Firestore query — only the category equality filter is applied
   // server-side because it's the most selective and avoids composite index issues.

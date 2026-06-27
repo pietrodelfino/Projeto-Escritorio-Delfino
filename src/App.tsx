@@ -289,7 +289,7 @@ export default function App() {
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#C5A880] flex-shrink-0" />
-                <span>contato@eduardodelfino.com.br</span>
+                <span>delfinoimoveis2026@gmail.com</span>
               </p>
             </div>
           </div>
