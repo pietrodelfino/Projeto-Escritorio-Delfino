@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Regras abertas para leitura e escrita (produção inicial)
+    // TODO: Restringir para autenticação após validação completa
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

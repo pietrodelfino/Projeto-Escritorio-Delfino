@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Property } from '../types/property';
-import { createProperty, updateProperty } from '../services/firebase';
-import { ArrowLeft, Save, Loader2, Plus, X, ImageIcon } from 'lucide-react';
+import { createProperty, updateProperty, uploadPropertyPhoto } from '../services/firebase';
+import { ArrowLeft, Save, Loader2, Plus, X, ImageIcon, Upload } from 'lucide-react';
 
 interface PropertyFormProps {
   initialData: Property | null;
@@ -39,6 +39,8 @@ export default function PropertyForm({ initialData, onSuccess, onCancel }: Prope
   const [tagInput, setTagInput] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
+  const [uploadProgress, setUploadProgress] = useState('');
 
   const isEditing = initialData !== null;
 
@@ -73,23 +75,50 @@ export default function PropertyForm({ initialData, onSuccess, onCancel }: Prope
     setField('tags', form.tags.filter(t => t !== tag));
   };
 
+  // ── File upload handler ────────────────────────────────────
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setPendingFiles(prev => [...prev, ...Array.from(e.target.files!)]);
+    }
+  };
+
+  const removePendingFile = (idx: number) => {
+    setPendingFiles(prev => prev.filter((_, i) => i !== idx));
+  };
+
   // ── Submit ─────────────────────────────────────────────────
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaveError('');
     setIsSaving(true);
-
-    // Filter out empty photo URLs before saving
-    const cleanedForm: FormData = {
-      ...form,
-      photos: form.photos.filter(url => url.trim() !== ''),
-    };
-
-    if (cleanedForm.photos.length === 0) {
-      cleanedForm.photos = ['https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80'];
-    }
+    setUploadProgress('');
 
     try {
+      // 1. Upload pending files to Firebase Storage
+      const uploadedUrls: string[] = [];
+      if (pendingFiles.length > 0) {
+        for (let i = 0; i < pendingFiles.length; i++) {
+          setUploadProgress(`Enviando foto ${i + 1} de ${pendingFiles.length}...`);
+          const url = await uploadPropertyPhoto(pendingFiles[i], isEditing ? initialData?.id : undefined);
+          uploadedUrls.push(url);
+        }
+      }
+
+      // 2. Combine existing URL inputs + uploaded file URLs
+      const allPhotos = [
+        ...form.photos.filter(url => url.trim() !== ''),
+        ...uploadedUrls,
+      ];
+
+      const cleanedForm: FormData = {
+        ...form,
+        photos: allPhotos.length > 0
+          ? allPhotos
+          : ['https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80'],
+      };
+
+      setUploadProgress('Salvando imóvel...');
+
       if (isEditing && initialData) {
         await updateProperty(initialData.id, cleanedForm);
       } else {
@@ -100,6 +129,7 @@ export default function PropertyForm({ initialData, onSuccess, onCancel }: Prope
       setSaveError('Erro ao salvar o imóvel. Verifique os dados e tente novamente.');
     } finally {
       setIsSaving(false);
+      setUploadProgress('');
     }
   };
 
@@ -342,13 +372,61 @@ export default function PropertyForm({ initialData, onSuccess, onCancel }: Prope
           </div>
         </div>
 
-        {/* ── Section 3: Fotos (URLs) ── */}
+        {/* ── Section 3: Fotos ── */}
         <div className={sectionClass}>
-          <h2 className={sectionTitleClass}>3. Fotos do Imóvel (URLs)</h2>
-          <div className="space-y-3">
+          <h2 className={sectionTitleClass}>3. Fotos do Imóvel</h2>
+
+          {/* File Upload Area */}
+          <div className="border-2 border-dashed border-gray-700 hover:border-[#C5A880]/40 rounded-lg p-6 text-center transition-colors">
+            <Upload className="w-8 h-8 text-gray-600 mx-auto mb-2" />
+            <p className="text-sm text-gray-400 mb-3">Arraste fotos ou clique para selecionar arquivos</p>
+            <label className="inline-flex items-center gap-2 bg-[#C5A880]/10 hover:bg-[#C5A880]/20 text-[#C5A880] border border-[#C5A880]/25 text-xs font-bold px-5 py-2.5 rounded transition-all cursor-pointer">
+              <Upload className="w-3.5 h-3.5" />
+              Selecionar Fotos do Computador
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileSelect}
+                className="sr-only"
+              />
+            </label>
+            {uploadProgress && (
+              <p className="text-xs text-[#C5A880] mt-3 flex items-center justify-center gap-2">
+                <Loader2 className="w-3 h-3 animate-spin" />
+                {uploadProgress}
+              </p>
+            )}
+          </div>
+
+          {/* Pending files preview */}
+          {pendingFiles.length > 0 && (
+            <div className="mt-4 space-y-2">
+              <p className="text-[10px] uppercase tracking-wider text-[#C5A880] font-semibold">Arquivos selecionados ({pendingFiles.length})</p>
+              {pendingFiles.map((file, idx) => (
+                <div key={idx} className="flex items-center gap-3 bg-gray-900/60 rounded px-3 py-2">
+                  <div className="w-10 h-10 rounded bg-gray-800 overflow-hidden flex-shrink-0">
+                    <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-xs text-gray-300 truncate flex-grow">{file.name}</span>
+                  <span className="text-[10px] text-gray-500">{(file.size / 1024).toFixed(0)} KB</span>
+                  <button
+                    type="button"
+                    onClick={() => removePendingFile(idx)}
+                    className="p-1 text-gray-600 hover:text-red-400 transition-colors cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* URL inputs (kept for backwards compat / external URLs) */}
+          <div className="mt-6 space-y-3">
+            <p className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Ou adicione URLs de fotos externas</p>
             {form.photos.map((url, idx) => (
               <div key={idx} className="flex items-center gap-3">
-                {/* Preview thumbnail */}
                 <div className="w-16 h-10 rounded bg-gray-900 border border-gray-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
                   {url ? (
                     <img src={url} alt="" className="w-full h-full object-cover" onError={e => (e.currentTarget.style.display = 'none')} />
@@ -383,7 +461,7 @@ export default function PropertyForm({ initialData, onSuccess, onCancel }: Prope
               className="inline-flex items-center gap-1.5 text-xs text-[#C5A880] hover:text-white border border-[#C5A880]/25 hover:border-[#C5A880]/50 px-4 py-2 rounded transition-all cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
-              Adicionar Mais Fotos
+              Adicionar Mais URLs
             </button>
           </div>
         </div>

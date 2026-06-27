@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Lock, Mail, Eye, EyeOff, Loader2, ShieldCheck } from 'lucide-react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../services/firebaseConfig';
 
 interface AdminLoginProps {
   onLoginSuccess: () => void;
@@ -18,14 +20,10 @@ export default function AdminLogin({ onLoginSuccess, onCancel }: AdminLoginProps
     setError('');
     setIsLoading(true);
 
-    // Skeleton auth — ready for Firebase Authentication integration.
-    // Replace this block with: signInWithEmailAndPassword(auth, email, password)
-    await new Promise(resolve => setTimeout(resolve, 900));
-
-    // Temporary hardcoded credentials for local dev (replace with Firebase Auth)
-    if (email === 'admin@eduardodelfino.com.br' && password === 'Delfino@1908') {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       onLoginSuccess();
-    } else {
+    } catch {
       setError('Credenciais inválidas. Verifique o e-mail e a senha de acesso.');
     }
 

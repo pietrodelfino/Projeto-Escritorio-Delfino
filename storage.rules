@@ -1,0 +1,10 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Regras abertas para leitura e escrita (produção inicial)
+    // TODO: Restringir para autenticação após validação completa
+    match /{allPaths=**} {
+      allow read, write: if true;
+    }
+  }
+}
