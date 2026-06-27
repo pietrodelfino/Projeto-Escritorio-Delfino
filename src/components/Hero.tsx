@@ -91,10 +91,10 @@ export default function Hero({ onSearch }: HeroProps) {
       <div 
         className="absolute inset-0 bg-cover bg-center transition-all duration-1000 transform scale-105"
         style={{ 
-          backgroundImage: `url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80')`,
-          filter: 'brightness(0.35)' 
+          backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80')`
         }}
       />
+      <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-[1px]" />
 
       {/* Decorative Gold & Blue Gradients */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#C5A880]/10 rounded-full blur-3xl" />

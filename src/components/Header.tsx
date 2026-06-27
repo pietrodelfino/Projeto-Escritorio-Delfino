@@ -22,8 +22,8 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#162238]/90 backdrop-blur-md border-b border-[#C5A880]/15 py-3 shadow-lg'
-          : 'bg-transparent py-5'
+          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 py-3 shadow-md'
+          : 'bg-white/90 backdrop-blur-sm border-b border-slate-100 py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,9 +31,9 @@ export default function Header() {
           {/* Brand/Logo */}
           <div className="flex flex-col">
             <div className="flex items-center">
-              <img src="/logo.jpg" alt="Eduardo Delfino Imóveis" className="h-10 w-auto object-contain brightness-110" />
+              <img src="/logo.jpg" alt="Eduardo Delfino Imóveis" className="h-10 w-auto object-contain" />
             </div>
-            <span className="text-[8px] sm:text-[9px] tracking-wider text-[#C5A880] font-sans font-medium mt-1">
+            <span className="text-[8px] sm:text-[9px] tracking-wider text-[#B3966E] font-sans font-semibold mt-1">
               Discrição, Tradição e Segurança Jurídica
             </span>
           </div>
@@ -42,25 +42,25 @@ export default function Header() {
           <nav className="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
             <a
               href="#"
-              className="text-[#C5A880] transition-colors duration-200"
+              className="text-[#B3966E] transition-colors duration-200"
             >
               Início
             </a>
             <a
               href="#imoveis"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
+              className="text-slate-700 hover:text-[#B3966E] transition-colors duration-200"
             >
               Imóveis
             </a>
             <a
               href="#tradicao"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
+              className="text-slate-700 hover:text-[#B3966E] transition-colors duration-200"
             >
               Nossa História
             </a>
             <a
               href="#contato"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
+              className="text-slate-700 hover:text-[#B3966E] transition-colors duration-200"
             >
               Contato
             </a>
@@ -81,7 +81,7 @@ export default function Header() {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-300 hover:text-white focus:outline-none p-1.5 rounded border border-gray-700/50"
+              className="text-slate-700 hover:text-[#B3966E] focus:outline-none p-1.5 rounded border border-slate-200"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -92,7 +92,7 @@ export default function Header() {
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`md:hidden absolute top-full left-0 right-0 bg-[#162238]/95 border-b border-[#C5A880]/15 backdrop-blur-lg transition-all duration-300 ease-in-out ${
+        className={`md:hidden absolute top-full left-0 right-0 bg-white/95 border-b border-slate-200 backdrop-blur-lg transition-all duration-300 ease-in-out ${
           isMobileMenuOpen
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-4 pointer-events-none'
@@ -102,28 +102,28 @@ export default function Header() {
           <a
             href="#"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="block text-base font-medium text-[#C5A880] py-2 border-b border-gray-800/40"
+            className="block text-base font-medium text-[#B3966E] py-2 border-b border-slate-100"
           >
             Início
           </a>
           <a
             href="#imoveis"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="block text-base font-medium text-gray-300 hover:text-white py-2 border-b border-gray-800/40"
+            className="block text-base font-medium text-slate-700 hover:text-[#B3966E] py-2 border-b border-slate-100"
           >
             Imóveis
           </a>
           <a
             href="#tradicao"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="block text-base font-medium text-gray-300 hover:text-white py-2 border-b border-gray-800/40"
+            className="block text-base font-medium text-slate-700 hover:text-[#B3966E] py-2 border-b border-slate-100"
           >
             Nossa História
           </a>
           <a
             href="#contato"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="block text-base font-medium text-gray-300 hover:text-white py-2 border-b border-gray-800/40"
+            className="block text-base font-medium text-slate-700 hover:text-[#B3966E] py-2 border-b border-slate-100"
           >
             Contato
           </a>
