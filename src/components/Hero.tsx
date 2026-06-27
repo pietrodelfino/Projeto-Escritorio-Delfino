@@ -109,17 +109,17 @@ export default function Hero({ onSearch }: HeroProps) {
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif text-white font-normal tracking-wide leading-tight max-w-4xl mx-auto mb-3 uppercase">
-          EDUARDO DELFINO <span className="text-[#C5A880] font-semibold">IMÓVEIS</span>
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif text-white font-normal tracking-wide leading-tight max-w-4xl mx-auto mb-3 uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+          EDUARDO DELFINO <span className="text-[#B91C1C] font-semibold">IMÓVEIS</span>
         </h1>
         
         {/* Slogan */}
-        <p className="text-lg sm:text-xl md:text-2xl font-serif text-gray-300 font-light max-w-3xl mx-auto mb-8 italic tracking-wider">
+        <p className="text-lg sm:text-xl md:text-2xl font-serif text-white font-light max-w-3xl mx-auto mb-8 italic tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
           Discrição, Tradição e <span className="text-[#C5A880] font-semibold">Segurança Jurídica</span>
         </p>
 
         {/* Subtitle */}
-        <p className="text-gray-400 text-base sm:text-lg font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-gray-200 text-base sm:text-lg font-normal max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
           Intermediação confidencial de ativos imobiliários corporativos, residências de alto padrão e fazendas produtivas em Araraquara e região central.
         </p>
 
