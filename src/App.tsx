@@ -98,7 +98,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070F19] text-white font-sans selection:bg-[#C5A880]/30 selection:text-[#C5A880]">
+    <div className="min-h-screen bg-[#111E31] text-white font-sans selection:bg-[#C5A880]/30 selection:text-[#C5A880]">
       {/* Header component */}
       <Header />
 
@@ -198,9 +198,9 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
           {/* Brand Col */}
           <div>
-            <span className="text-lg font-bold tracking-wide text-white font-serif block">
-              EDUARDO DELFINO <span className="text-[#C5A880]">IMÓVEIS</span>
-            </span>
+            <div className="flex items-center mb-2">
+              <img src="/logo.jpg" alt="Eduardo Delfino Imóveis" className="h-10 w-auto object-contain brightness-110" />
+            </div>
             <span className="text-[10px] tracking-wider text-[#C5A880] font-sans font-medium mt-1 block">
               Discrição, Tradição e Segurança Jurídica
             </span>

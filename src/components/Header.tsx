@@ -22,7 +22,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0B192C]/90 backdrop-blur-md border-b border-[#C5A880]/15 py-3 shadow-lg'
+          ? 'bg-[#162238]/90 backdrop-blur-md border-b border-[#C5A880]/15 py-3 shadow-lg'
           : 'bg-transparent py-5'
       }`}
     >
@@ -30,10 +30,10 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Brand/Logo */}
           <div className="flex flex-col">
-            <span className="text-xl font-bold tracking-wide text-white font-serif">
-              EDUARDO DELFINO <span className="text-[#C5A880]">IMÓVEIS</span>
-            </span>
-            <span className="text-[9px] tracking-wider text-[#C5A880] font-sans font-medium mt-0.5">
+            <div className="flex items-center">
+              <img src="/logo.jpg" alt="Eduardo Delfino Imóveis" className="h-10 w-auto object-contain brightness-110" />
+            </div>
+            <span className="text-[8px] sm:text-[9px] tracking-wider text-[#C5A880] font-sans font-medium mt-1">
               Discrição, Tradição e Segurança Jurídica
             </span>
           </div>
@@ -70,7 +70,7 @@ export default function Header() {
           <div className="hidden md:flex items-center">
             <a
               href="#contato"
-              className="inline-flex items-center gap-2 bg-[#C5A880] hover:bg-[#B3966E] text-[#0B192C] font-semibold text-xs uppercase tracking-wider px-5 py-2.5 rounded transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
+              className="inline-flex items-center gap-2 bg-[#C5A880] hover:bg-[#B3966E] text-[#162238] font-semibold text-xs uppercase tracking-wider px-5 py-2.5 rounded transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
             >
               <Phone className="w-3.5 h-3.5" />
               Atendimento Exclusivo
@@ -92,7 +92,7 @@ export default function Header() {
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`md:hidden absolute top-full left-0 right-0 bg-[#0B192C]/95 border-b border-[#C5A880]/15 backdrop-blur-lg transition-all duration-300 ease-in-out ${
+        className={`md:hidden absolute top-full left-0 right-0 bg-[#162238]/95 border-b border-[#C5A880]/15 backdrop-blur-lg transition-all duration-300 ease-in-out ${
           isMobileMenuOpen
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-4 pointer-events-none'
@@ -131,7 +131,7 @@ export default function Header() {
             <a
               href="#contato"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="inline-flex items-center justify-center gap-2 w-full bg-[#C5A880] text-[#0B192C] font-bold text-xs uppercase tracking-widest py-3 rounded shadow-md"
+              className="inline-flex items-center justify-center gap-2 w-full bg-[#C5A880] text-[#162238] font-bold text-xs uppercase tracking-widest py-3 rounded shadow-md"
             >
               <Phone className="w-4 h-4" />
               Atendimento Exclusivo

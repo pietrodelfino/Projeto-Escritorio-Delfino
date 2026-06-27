@@ -86,19 +86,19 @@ export default function Hero({ onSearch }: HeroProps) {
   };
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 overflow-hidden bg-[#070F19]">
+    <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 overflow-hidden bg-[#111E31]">
       {/* Background Image with Dark Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center transition-all duration-1000 transform scale-105"
         style={{ 
           backgroundImage: `url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80')`,
-          filter: 'brightness(0.22)' 
+          filter: 'brightness(0.35)' 
         }}
       />
 
       {/* Decorative Gold & Blue Gradients */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#C5A880]/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-[#0B192C]/50 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-[#162238]/50 rounded-full blur-3xl" />
 
       {/* Content Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -124,7 +124,7 @@ export default function Hero({ onSearch }: HeroProps) {
         </p>
 
         {/* Search Engine Card */}
-        <div className="w-full max-w-4xl mx-auto bg-[#0B192C]/80 backdrop-blur-md rounded-xl border border-[#C5A880]/20 p-5 sm:p-6 shadow-2xl">
+        <div className="w-full max-w-4xl mx-auto bg-[#162238]/80 backdrop-blur-md rounded-xl border border-[#C5A880]/20 p-5 sm:p-6 shadow-2xl">
           {/* Tabs Navigation */}
           <div className="flex flex-wrap border-b border-gray-800/80 mb-6">
             <button
